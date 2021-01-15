@@ -1,0 +1,21 @@
+{
+  "name": "bili_plus",
+  "version": "1.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "https-proxy-agent": "^5.0.0",
+    "mysql": "^2.18.1",
+    "qs": "^6.9.1",
+    "redis": "^3.0.2",
+    "socks-proxy-agent": "^5.0.0"
+  }
+}
