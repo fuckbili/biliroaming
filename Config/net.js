@@ -8,13 +8,13 @@ async function black(uid) { //是否黑名单
         case true:
             return cache_uid
         case false:
-            data = await sql.query('SELECT * FROM bili_uid WHERE uid=' + uid)
+            data = await sql.query(`SELECT * FROM bili_uid WHERE uid=${uid} and black=true`)
             switch (data.length != 0) {
                 case true:
-                    redis.set('uid' + uid, 'black')
+                    redis.setex('uid' + uid,86400, 'black')
                     return 'black'
                 case false:
-                    redis.set('uid' + uid, 'white')
+                    redis.setex('uid' + uid,86400, 'black')
                     return 'white'
             }
     }
@@ -33,7 +33,7 @@ async function check(access_key) { //检测是否缓存uid
                         case 0:
                             try {
                                 var uid = myinfo.data.mid //获取uid
-                                redis.setex(access_key, 86400, uid) //缓存10天
+                                redis.setex(access_key, 86400, uid) //缓存1天
                                 return await black(redis_uid)
                             } catch (error) {
                                 console.log(error)
