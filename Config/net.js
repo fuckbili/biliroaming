@@ -14,7 +14,7 @@ async function black(uid) { //是否黑名单
                     redis.setex('uid' + uid,86400, 'black')
                     return 'black'
                 case false:
-                    redis.setex('uid' + uid,86400, 'black')
+                    redis.setex('uid' + uid,86400, 'white')
                     return 'white'
             }
     }
