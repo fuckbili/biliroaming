@@ -8,7 +8,7 @@ async function black(uid) { //是否黑名单
         case true:
             return cache_uid
         case false:
-            data = await sql.query(`SELECT * FROM bili_uid WHERE uid=${uid} and black=true`)
+            data = await sql.query(`SELECT * FROM bili_uid WHERE uid=${uid} and black='true'`)
             switch (data.length != 0) {
                 case true:
                     redis.setex('uid' + uid,86400, 'black')
@@ -110,7 +110,7 @@ async function playurl(params) {
     data = await check(access_key)
     switch (data) {
         case 'black': //黑名单换成葫芦娃
-            url_data = await api.api_playurl(access_key, 3684209, 62780, ts, fnval, fourk, qn, area)
+            url_data = await api.api_playurl(access_key, 3684209, 62780, ts, fnval, fourk, qn, 'cn')
             return url_data
         case 'white':
             data_url = await check_cid(cid)
