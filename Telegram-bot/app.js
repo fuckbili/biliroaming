@@ -10,11 +10,12 @@ const bot = new TelegramBot(token, {
 
 bot.onText(/\/black (.+)/, async (msg, match) => {
     try {
-        const chatId = msg.from.id;
+        const formId= msg.from.id;
+        const chatId=msg.chat.id;
         const resp = match[1];
         switch (isNaN(resp)) {
             case false:
-                admin = await model.check_admin(chatId)
+                admin = await model.check_admin(formId)
                 switch (admin) {
                     case true:
                         data = await model.check_white(resp)
@@ -32,11 +33,12 @@ bot.onText(/\/black (.+)/, async (msg, match) => {
 });
 bot.onText(/\/del (.+)/, async (msg, match) => {
     try {
-        const chatId = msg.from.id;
+        const formId= msg.from.id;
+        const chatId=msg.chat.id;
         const resp = match[1];
         switch (isNaN(resp)) {
             case false:
-                admin = await model.check_admin(chatId)
+                admin = await model.check_admin(formId)
                 switch (admin) {
                     case true:
                         data = await model.check_black(resp)
