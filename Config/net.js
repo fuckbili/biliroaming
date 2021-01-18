@@ -1,7 +1,7 @@
 const sql = require('./sql')
 const redis = require('./redis')
 const api = require('./bili_api')
-//const ts = () => Math.round(Date.now() / 1000)
+const ts = () => Math.round(Date.now() / 1000)
 async function black(uid) { //是否黑名单
     cache_uid = await redis.get('uid' + uid)
     switch (cache_uid != null || cache_uid != undefined) {
@@ -11,10 +11,10 @@ async function black(uid) { //是否黑名单
             data = await sql.query(`SELECT * FROM bili_uid WHERE uid=${uid} and black='true'`)
             switch (data.length != 0) {
                 case true:
-                    redis.setex('uid' + uid,86400, 'black')
+                    redis.setex('uid' + uid, 86400, 'black')
                     return 'black'
                 case false:
-                    redis.setex('uid' + uid,86400, 'white')
+                    redis.setex('uid' + uid, 86400, 'white')
                     return 'white'
             }
     }
@@ -48,8 +48,8 @@ async function check(access_key) { //检测是否缓存uid
                 return false
     }
 }
-async function check_cid(cid) { //检测是否缓存cid
-    url = await redis.get('cid' + cid)
+async function check_cid(cid, area) { //检测是否缓存cid
+    url = await redis.get('cid' + area + cid)
     switch (url != null || url != undefined) {
         case true:
             return url
@@ -57,45 +57,38 @@ async function check_cid(cid) { //检测是否缓存cid
             return false
     }
 }
-async function check_url(cid, url,fnval, qn) { //检测是否为受限番剧
+async function check_url(cid, url, fnval, qn, area) { //检测是否为受限番剧
     switch (url.code) {
         case 0:
             switch (fnval) {
                 case '208':
-                    switch (qn) {
-                        case '80':
-                            redis.setex('cid' + cid, 3600, url) //缓存视频地址1小时
+                    switch (qn >= 80) {
+                        case true:
+                            redis.setex('cid' + area + cid, 4500, url)
+                        default:
                             return
-                        case '112':
-                            redis.setex('cid' + cid, 3600, url) //缓存视频地址1小时
-                            return
-                        case '120':
-                            redis.setex('cid' + cid, 3600, url) //缓存视频地址1小时
-                            return
-                        case false:
-                            return false
-
                     }
+
                     case '16':
-                        switch (qn) {
-                            case '80':
-                                redis.setex('cid' + cid, 3600, url) //缓存视频地址1小时
+                        switch (qn >= 80) {
+                            case true:
+                                redis.setex('cid' + area + cid, 4500, url)
+                            default:
                                 return
-                            case '112':
-                                redis.setex('cid' + cid, 3600, url) //缓存视频地址1小时
-                                return
-                            case '120':
-                                redis.setex('cid' + cid, 3600, url) //缓存视频地址1小时
-                                return
-                            case false:
-                                return false
-    
                         }
                         default:
                             return false
             }
-            default:
-                return false
+            case -10043:
+                switch (area != null || area != undefined || area != '') {
+                    case true:
+                        redis.setex('cid' + area + cid, 2592000, url)
+                        return
+                    default:
+                        return false
+                }
+                default:
+                    return false
     }
 }
 async function playurl(params) {
@@ -105,19 +98,19 @@ async function playurl(params) {
     let ts = params.ts
     let fnval = params.fnval
     let fourk = params.fourk
-    let qn = params.qn
-    let area = params.area
+    let qn = params.qn || 80
+    let area = params.area || 'cn'
     data = await check(access_key)
     switch (data) {
         case 'black': //黑名单换成葫芦娃
             url_data = await api.api_playurl(access_key, 3684209, 62780, ts, fnval, fourk, qn, 'cn')
             return url_data
         case 'white':
-            data_url = await check_cid(cid)
+            data_url = await check_cid(cid, area)
             switch (data_url) {
                 case false:
                     url_data = await api.api_playurl(access_key, cid, ep_id, fnval, fourk, qn, ts, area)
-                    check_url(cid, url_data,fnval, qn)
+                    check_url(cid, url_data, fnval, qn, area)
                     return url_data
                 default:
                     return data_url
@@ -142,18 +135,18 @@ async function th_playurl(params) {
     let fnval = params.fnval
     let fourk = params.fourk
     let qn = params.qn || 80
-    let area = params.area
+    let area = params.area||'cn'
     data = await check(access_key)
     switch (data) {
         case 'black': //黑名单换成葫芦娃
             url_data = await api.api_playurl(access_key, 3684209, 62780, ts, fnval, fourk, qn, area)
             return url_data
         case 'white':
-            data_url = await check_cid(cid)
+            data_url = await check_cid(cid,area)
             switch (data_url) {
                 case false:
                     url_data = await api.api_th_playurl(access_key, cid, ep_id, fnval, fourk, qn, ts, area)
-                    check_url(cid, url_data,fnval, qn)
+                    check_url(cid, url_data, fnval, qn,area)
                     return url_data
                 default:
                     return data_url
