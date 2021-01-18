@@ -10,7 +10,7 @@ const bot = new TelegramBot(token, {
 
 bot.onText(/\/black (.+)/, async (msg, match) => {
     try {
-        const chatId = msg.chat.id;
+        const chatId = msg.from.id;
         const resp = match[1];
         switch (isNaN(resp)) {
             case false:
@@ -32,7 +32,7 @@ bot.onText(/\/black (.+)/, async (msg, match) => {
 });
 bot.onText(/\/del (.+)/, async (msg, match) => {
     try {
-        const chatId = msg.chat.id;
+        const chatId = msg.from.id;
         const resp = match[1];
         switch (isNaN(resp)) {
             case false:
