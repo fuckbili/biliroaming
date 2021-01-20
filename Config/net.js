@@ -65,28 +65,22 @@ async function check_url(cid, url, fnval, qn, area) { //检测是否为受限番
                     switch (qn >= 80) {
                         case true:
                             redis.setex('cid' + area + cid, 4500, url)
-                        default:
                             return
+                        default:
+                            return false
                     }
 
                     case '16':
                         switch (qn >= 80) {
                             case true:
                                 redis.setex('cid' + area + cid, 4500, url)
-                            default:
                                 return
+                            default:
+                                return false
                         }
                         default:
                             return false
             }
-            case -10043:
-                switch (area != null || area != undefined || area != '') {
-                    case true:
-                        redis.setex('cid' + area + cid, 2592000, url)
-                        return
-                    default:
-                        return false
-                }
                 default:
                     return false
     }
