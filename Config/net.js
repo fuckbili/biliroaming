@@ -34,7 +34,7 @@ async function check(access_key) { //检测是否缓存uid
                             try {
                                 var uid = myinfo.data.mid //获取uid
                                 redis.setex(access_key, 86400, uid) //缓存1天
-                                return await black(redis_uid)
+                                return await black(uid)
                             } catch (error) {
                                 console.log(error)
                                 return false
