@@ -37,7 +37,7 @@ async function check_black(uid) {//检测缓存是否是黑名单,如果是就�
 }
 async function check_white(uid) {//检测缓存是否是白名单,如果是就删除缓存
     try {
-        data = await sql.query(`insert into bili_uid(uid,black) values(${uid},'true') on duplicate key update black='true'`)
+        data = await sql.query(`insert into bili_uid(uid,black) values(${uid},'true') on duplicate key update uid=${uid},black='true'`)
     } catch (error) {
         return 'UID:' + uid + '添加失败'
     }
