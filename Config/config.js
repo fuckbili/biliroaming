@@ -6,6 +6,12 @@ const host = '' //数据库地址
 
 const port = 39831 //服务器启动端口
 
+//socks5代理
+const tw_proxy = '127.0.0.1:41000'
+const cn_proxy = '127.0.0.1:41001'
+const th_proxy = '127.0.0.1:41002'
+const hk_proxy = '127.0.0.1:41000'
+
 const access_key = '' //懂得都懂
 
 const Web_Ak = '84956560bc028eb7'
@@ -40,6 +46,10 @@ module.exports = {
      database,
      host,
      port,
+     tw_proxy,
+     cn_proxy,
+     th_proxy,
+     hk_proxy,
      access_key,
      android_ak,
      android_sk,
