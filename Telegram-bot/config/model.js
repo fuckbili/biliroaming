@@ -19,7 +19,7 @@ async function check_admin(Tg_id) {//检测是否是机器人管理员,bool
 }
 async function check_black(uid) {//检测缓存是否是黑名单,如果是就删除缓存
     try {
-        data = await sql.query(`insert into bili_uid(uid,black) values(${uid},'false') on duplicate key update black='false'`)
+        data = await sql.query(`insert into bili_uid(uid,black) values(${uid},'false') on duplicate key update uid=${uid},black='false'`)
     } catch (error) {
         return 'UID:' + uid + '删除失败'
     }
