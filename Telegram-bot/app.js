@@ -15,7 +15,7 @@ bot.onText(/\/black (.+)/, async (msg, match) => {
     try {
         switch (isNaN(resp)) {
             case false:
-                admin = await model.check_admin(chatId)
+                admin = await model.check_admin(formId)
                 switch (admin) {
                     case true:
                         data = await model.check_white(resp)
