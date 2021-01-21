@@ -9,17 +9,17 @@ const bot = new TelegramBot(token, {
 });
 
 bot.onText(/\/black (.+)/, async (msg, match) => {
+    const formId= msg.from.id;
+    const chatId=msg.chat.id;
+    const resp = match[1];
     try {
-        const formId= msg.from.id;
-        const chatId=msg.chat.id;
-        const resp = match[1];
         switch (isNaN(resp)) {
             case false:
-                admin = await model.check_admin(formId)
+                admin = await model.check_admin(chatId)
                 switch (admin) {
                     case true:
                         data = await model.check_white(resp)
-                        return bot.sendMessage(chatId, data);
+                        return bot.sendMessage(formId, data);
                     case false:
                         return bot.sendMessage(chatId, '不是狗管理，别瞎几把动');
                 }
@@ -32,10 +32,10 @@ bot.onText(/\/black (.+)/, async (msg, match) => {
     }
 });
 bot.onText(/\/del (.+)/, async (msg, match) => {
+    const formId= msg.from.id;
+    const chatId=msg.chat.id;
+    const resp = match[1];
     try {
-        const formId= msg.from.id;
-        const chatId=msg.chat.id;
-        const resp = match[1];
         switch (isNaN(resp)) {
             case false:
                 admin = await model.check_admin(formId)
@@ -56,8 +56,9 @@ bot.onText(/\/del (.+)/, async (msg, match) => {
 });
 
 bot.onText(/\/start/, async (msg) => {
+    const formId= msg.from.id;
+    const chatId=msg.chat.id;
     try {
-        const chatId = msg.chat.id;
         return bot.sendMessage(chatId, 'hello,By:mk39');
     } catch (error) {
         return bot.sendMessage(chatId, '机器人错误');
