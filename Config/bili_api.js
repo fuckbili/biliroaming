@@ -21,10 +21,13 @@ let th_subtitle = require('./api/th_app_subtitle')
 let th_search = require('./api/th_app_search')
 let uid = require('./api/checkip')
 
-async function api_pcurl(access_key, cid, fnval, fourk, qn, ts, area) { //获取web视频地址
+async function api_pcurl(access_key,avid,bvid, cid,ep_id, fnval, fourk, qn, ts, area) { //获取web番剧视频地址
     try {
         pcurl.options.httpsAgent = HttpsAgent(area)
         pcurl.params.access_key = access_key
+        pcurl.params.avid=avid
+        pcurl.params.bvid=bvid
+        pcurl.params.ep_id=ep_id
         pcurl.params.ts = ts
         pcurl.params.cid = cid
         pcurl.params.fnval = fnval

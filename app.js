@@ -20,6 +20,15 @@ app.get('/intl/gateway/v2/app/search/type', async (req, res, next) => {
 	data = await net.th_search(req.query)
 	res.send(data)
 });
+app.get('/pgc/player/web/playurl', async (req, res, next) => {
+	data = await net.web_playurl(req.query)
+	res.set({
+		'Access-Control-Allow-Origin': 'https://www.bilibili.com',
+		'Access-Control-Allow-Credentials': 'true'
+	})
+	res.send(data)
+});
+
 app.use(function (req, res) {
 	res.status(404).json({
 		"code": -400,

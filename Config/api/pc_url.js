@@ -8,13 +8,14 @@ let headers = {
 let params = {
     'access_key':'',
     'appkey': appkey,
-    'build': '12450',
+    'avid':'',
+    'bvid':'',
     'cid': '',
+    'ep_id':'',
     'fnval': '',
     'fnver': '0',
     'fourk': '',
     'otype': 'json',
-    'platform': 'pc',
     'qn': '',
     'ts': ''
 }

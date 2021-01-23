@@ -21,7 +21,7 @@ async function black(uid) { //是否黑名单
 
 }
 async function check(access_key) { //检测是否缓存uid
-    switch (access_key != null && access_key != '' && access_key != undefined) {
+    switch (access_key != null && access_key != '' && access_key != undefined) {//判断是否登陆
         case true:
             redis_uid = await redis.get(access_key) //是否缓存uid
             switch (redis_uid != null || redis_uid != undefined) {
@@ -32,9 +32,15 @@ async function check(access_key) { //检测是否缓存uid
                     switch (myinfo.code) {
                         case 0:
                             try {
-                                var uid = myinfo.data.mid //获取uid
-                                redis.setex(access_key, 86400, uid) //缓存1天
-                                return await black(uid)
+                                switch (myinfo.data.isLogin) {
+                                    case true:
+                                        let uid = myinfo.data.mid //获取uid
+                                        let vip_exp = myinfo.data.vipDueDate //vip过期时间
+                                        redis.setex(access_key, 86400, uid) //缓存1天
+                                        return await black(uid)
+                                    default:
+                                        return false
+                                }
                             } catch (error) {
                                 console.log(error)
                                 return false
@@ -78,13 +84,14 @@ async function check_url(cid, url, fnval, qn, area) { //检测是否为受限番
                             default:
                                 return false
                         }
-                        default:
-                            return false
+                            default:
+                                return false
             }
-                default:
-                    return false
+            default:
+                return false
     }
 }
+
 async function playurl(params) {
     let access_key = params.access_key
     let cid = params.cid || 3684209 //没有cid就换成葫芦娃
@@ -129,18 +136,55 @@ async function th_playurl(params) {
     let fnval = params.fnval
     let fourk = params.fourk
     let qn = params.qn || 80
-    let area = params.area||'cn'
+    let area = params.area || 'cn'
     data = await check(access_key)
     switch (data) {
         case 'black': //黑名单换成葫芦娃
             url_data = await api.api_playurl(access_key, 3684209, 62780, ts, fnval, fourk, qn, area)
             return url_data
         case 'white':
-            data_url = await check_cid(cid,area)
+            data_url = await check_cid(cid, area)
             switch (data_url) {
                 case false:
                     url_data = await api.api_th_playurl(access_key, cid, ep_id, fnval, fourk, qn, ts, area)
-                    check_url(cid, url_data, fnval, qn,area)
+                    check_url(cid, url_data, fnval, qn, area)
+                    return url_data
+                default:
+                    return data_url
+            }
+            case false:
+                return {
+                    "code": -403,
+                    "message": "未登录"
+                }
+                default:
+                    return {
+                        "code": -404,
+                        "message": "请求错误"
+                    }
+    }
+}
+async function web_playurl(params) {
+    let access_key = params.access_key
+    let cid = params.cid || 3684209 //没有cid就换成葫芦娃
+    let avid=params.avid
+    let bvid=params.bvid
+    let ep_id=params.ep_id
+    let ts = params.ts
+    let fnval = params.fnval||80
+    let fourk = params.fourk
+    let qn = params.qn || 80
+    let area = params.area || 'tw'
+    data = await check(access_key)
+    switch (data) {
+        case 'black': //黑名单换成葫芦娃
+            url_data = await api.api_pcurl(access_key,avid,bvid, 3684209, 62780,fnval, fourk, qn, ts, 'cn')
+            return url_data
+        case 'white':
+            data_url = await check_cid(cid, area)
+            switch (data_url) {
+                case false:
+                    url_data = await await api.api_pcurl(access_key,avid,bvid, cid, ep_id,fnval, fourk, qn, ts, area)
                     return url_data
                 default:
                     return data_url
@@ -169,6 +213,7 @@ async function th_subtitle(params) {
 module.exports = {
     playurl,
     th_playurl,
+    web_playurl,
     th_search,
     th_subtitle
 }
