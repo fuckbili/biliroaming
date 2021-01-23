@@ -48,3 +48,4 @@
   + 如果测试提示未登录，请加上参数access_key=你的access_key
   + access_key可以通过抓包app客户端获取
 + 如需控制黑名单,请使用此tg机器人
+  + [biliroaming-bot](https://github.com/fuckbili/biliroaming-bot)
