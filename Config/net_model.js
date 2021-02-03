@@ -60,6 +60,7 @@ const check_sql = async (uid, access_key, vip_exp) => {//记录uid信息
 }
 const get_sql_uid = async (uid) => {//从数据库获取uid信息
     data = await sql.query(`SELECT * FROM bili_uid WHERE uid=${uid}`)
+    console.log(data)
     switch (data.length != 0) {
         case true:
             let mode = data[0].mode
@@ -84,6 +85,7 @@ const get_sql_uid = async (uid) => {//从数据库获取uid信息
                         return false
             }
             case false:
+                check_sql(uid) //防止手动删除数据导致bug
                 return false
     }
 }
