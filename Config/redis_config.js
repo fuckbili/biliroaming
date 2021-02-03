@@ -1,11 +1,12 @@
-
+const {redis_host,redis_port,redis_password}=require('./config')
 module.exports = {
     // ...
     redis: {
-        host: "127.0.0.1",
-        port: 6379,
+        host: redis_host,
+        port: redis_port,
         options: {
-            timeout: 3000
+            timeout: 3000,
+            auth_pass: redis_password
         }
     },
     spam: {

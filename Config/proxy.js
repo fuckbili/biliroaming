@@ -10,8 +10,10 @@ function HttpsAgent(area) {
                     return new Proxy(`socks://${config.th_proxy}`)
                     case 'hk':
                         return new Proxy(`socks://${config.hk_proxy}`)
-                        default:
-                            return new Proxy(`socks://${config.cn_proxy}`)
+                        case 'all':
+                            return new Proxy(`socks://${config.all_proxy}`)
+                            default:
+                                return new Proxy(`socks://${config.cn_proxy}`)
     }  
 }
 module.exports = { HttpsAgent }

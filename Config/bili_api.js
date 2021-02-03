@@ -153,7 +153,7 @@ async function api_th_search(params) { //东南亚搜索
 }
 async function api_uid(access_key) { //获取信息
     try {
-        uid.options.httpsAgent = HttpsAgent('cn')
+        //uid.options.httpsAgent = HttpsAgent('cn')
         uid.options.url = `https://api.bilibili.com/x/web-interface/nav?access_key=${access_key}`
         let resp = await axios(uid.options)
         return resp.data

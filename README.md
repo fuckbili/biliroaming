@@ -45,7 +45,7 @@
     + 点击ssl,找到Let's Encrypt
     + 然后点击申请就行
 + 注意事项：
-  + 如果测试提示未登录，请加上参数access_key=你的access_key
+  + 如果测试提示未登录，请加上参数access_key=你的access_key,或者去设置关闭登录验证
   + access_key可以通过抓包app客户端获取
 + 如需控制黑名单,请使用此tg机器人
   + [biliroaming-bot](https://github.com/fuckbili/biliroaming-bot)

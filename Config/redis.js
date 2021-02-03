@@ -35,7 +35,13 @@ Cache.setex = function (key, time, value) {
         }
     });
 };
-
+Cache.incr=function(key){
+    return client.incr(key,function(err){
+        if(err){
+            console.log(err)
+        }
+    })
+}
 Cache.get = async (key) => {
     return await text(key);
 };
