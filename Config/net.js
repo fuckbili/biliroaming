@@ -81,6 +81,7 @@ async function th_playurl(params) {
             }
             case false:
                 url_data = await api.api_playurl(access_key, 3684209, 62780, ts, fnval, fourk, qn, area)
+                url_data = await api.api_playurl(access_key, 3684209, 62780, ts, fnval, fourk, qn, 'cn')
                 return url_data
     }
 }
