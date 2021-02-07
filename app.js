@@ -14,7 +14,7 @@ app.get('/intl/gateway/v2/ogv/playurl', net.ip, net.auth, async (req, res, next)
 	data = await net.th_playurl(req.query)
 	res.send(data)
 });
-app.get('/intl/gateway/v2/app/subtitle', net.ip, net.auth, async (req, res, next) => {
+app.get('/intl/gateway/v2/app/subtitle', net.ip, async (req, res, next) => {
 	data = await net.th_subtitle(req.query)
 	res.send(data)
 });
