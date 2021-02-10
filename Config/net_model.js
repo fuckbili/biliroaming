@@ -42,23 +42,29 @@ const check_url = async (cid, url, fnval, qn, area) => { //检测是否为受限
                 return false
     }
 }
-const check_sql = async (uid, access_key, vip_exp) => {//记录uid信息
-    try {
-        sql_data = await sql.query(`SELECT * FROM bili_uid WHERE uid=${uid}`)
-        switch (sql_data.length != 0) {
-            case true:
-                sql.query(`UPDATE bili_uid SET access_key='${access_key}',last_time=${ts()},vip_exp=${vip_exp} WHERE uid=${uid}`)
+const check_sql = async (uid, access_key, vip_exp) => { //记录uid信息
+    switch (isNaN(uid)) {
+        case true:
+            return
+        case false:
+            try {
+                sql_data = await sql.query(`SELECT * FROM bili_uid WHERE uid=${uid}`)
+                switch (sql_data.length != 0) {
+                    case true:
+                        sql.query(`UPDATE bili_uid SET access_key='${access_key}',last_time=${ts()},vip_exp=${vip_exp} WHERE uid=${uid}`)
+                        return
+                    case false:
+                        sql.query('INSERT IGNORE INTO bili_uid(uid,access_key,last_time,vip_exp) VALUES(?,?,?,?)', [uid, access_key, ts(), vip_exp])
+                        return
+                }
+            } catch (error) {
+                console.log(error)
                 return
-            case false:
-                sql.query('INSERT IGNORE INTO bili_uid(uid,access_key,last_time,vip_exp) VALUES(?,?,?,?)', [uid, access_key, ts(), vip_exp])
-                return
-        }
-    } catch (error) {
-        console.log(error)
-        return
+            }
     }
+
 }
-const get_sql_uid = async (uid) => {//从数据库获取uid信息
+const get_sql_uid = async (uid) => { //从数据库获取uid信息
     data = await sql.query(`SELECT * FROM bili_uid WHERE uid=${uid}`)
     switch (data.length != 0) {
         case true:
@@ -88,7 +94,7 @@ const get_sql_uid = async (uid) => {//从数据库获取uid信息
                 return false
     }
 }
-const check_mode = async (uid) => {//检测当前模式,判断访客是否可获取视频地址
+const check_mode = async (uid) => { //检测当前模式,判断访客是否可获取视频地址
     cache_uid = await redis.get('uid' + uid) //检测是否缓存了uid信息
     switch (cache_uid) {
         case 'white':
@@ -109,7 +115,7 @@ const check_mode = async (uid) => {//检测当前模式,判断访客是否可获
     }
 
 }
-const check_uid = async (access_key) => {//从redis获取uid
+const check_uid = async (access_key) => { //从redis获取uid
     redis_uid = await redis.get(access_key)
     switch (redis_uid != null && redis_uid != undefined) { //检测是否缓存,开启了登录检验会缓存,以防万一还是加个检验
         case true:
@@ -118,8 +124,8 @@ const check_uid = async (access_key) => {//从redis获取uid
             return false
     }
 }
-const check = async (access_key) => {//检测是否开启登录检验
-    switch (config.check_auth) { 
+const check = async (access_key) => { //检测是否开启登录检验
+    switch (config.check_auth) {
         case false: //未开启,所有人可用,不使用黑白名单
             return true
         case true:
@@ -179,7 +185,7 @@ const check_auth = async (req, res, next) => { //登录检验
     }
 
 }
-const check_ip = async (req, res, next) => {//检测ip请求频率
+const check_ip = async (req, res, next) => { //检测ip请求频率
     let ip = req.headers['remote-host'] //已测试sql注入,nginx反向代理才能获取到
     switch (ip != undefined && ip != null && ip != '') {
         case false:
