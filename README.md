@@ -20,7 +20,7 @@
   + ![1.png](https://i.loli.net/2021/01/23/hwqGMxk7X23ayLE.png)
   + 上传代码到此目录
 + 修改配置文件:
-  + Super Bili/Config/config.js
+  + Config/config.js
   + 填入mysql数据库配置
   + 填入解析端口配置
   + 填入 socks5代理ip(必填,否则后面无法测试)
