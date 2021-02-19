@@ -43,26 +43,22 @@ const check_url = async (cid, url, fnval, qn, area) => { //检测是否为受限
     }
 }
 const check_sql = async (uid, access_key, vip_exp) => { //记录uid信息
-    switch (isNaN(uid)) {
-        case true:
-            return
-        case false:
-            try {
-                sql_data = await sql.query(`SELECT * FROM bili_uid WHERE uid=${uid}`)
-                switch (sql_data.length != 0) {
-                    case true:
-                        sql.query(`UPDATE bili_uid SET access_key='${access_key}',last_time=${ts()},vip_exp=${vip_exp} WHERE uid=${uid}`)
-                        return
-                    case false:
-                        sql.query('INSERT IGNORE INTO bili_uid(uid,access_key,last_time,vip_exp) VALUES(?,?,?,?)', [uid, access_key, ts(), vip_exp])
-                        return
-                }
-            } catch (error) {
-                console.log(error)
-                return
+    if (isNaN(uid) == false && access_key != undefined) {
+        try {
+            sql_data = await sql.query(`SELECT * FROM bili_uid WHERE uid=${uid}`)
+            switch (sql_data.length != 0) {
+                case true:
+                    sql.query(`UPDATE bili_uid SET access_key='${access_key}',last_time=${ts()},vip_exp=${vip_exp} WHERE uid=${uid}`)
+                    return
+                case false:
+                    sql.query('INSERT IGNORE INTO bili_uid(uid,access_key,last_time,vip_exp) VALUES(?,?,?,?)', [uid, access_key, ts(), vip_exp])
+                    return
             }
+        } catch (error) {
+            console.log(error)
+            return
+        }
     }
-
 }
 const get_sql_uid = async (uid) => { //从数据库获取uid信息
     data = await sql.query(`SELECT * FROM bili_uid WHERE uid=${uid}`)
