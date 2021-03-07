@@ -5,7 +5,10 @@ const config = require('./Config/config')
 const net = require('./Config/net');
 //app.set('trust proxy',true)
 
-
+app.get('/intl/gateway/v2/ogv/view/app/season', net.ip, net.auth, async (req, res, next) => {
+	data = await net.th_season(req.query)
+	res.send(data)
+});
 app.get('/pgc/player/api/playurl', net.ip, net.auth, async (req, res, next) => {
 	data = await net.playurl(req.query)
 	res.send(data)

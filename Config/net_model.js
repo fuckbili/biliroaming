@@ -5,7 +5,24 @@ const api = require('./bili_api')
 const config = require('./config')
 const sql = require('./sql')
 
-
+const check_season = async (season_id, area) => { //检测是否缓存season_id
+    data = await redis.get('season_id' + area + season_id)
+    switch (data != null && data != undefined) {
+        case true:
+            return data
+        case false:
+            return false
+    }
+}
+const check_season_code = async (season_id, area, data) => {//缓存season_id一天
+    switch (data.code) {
+        case 0:
+            redis.setex('season_id' + area + season_id, 86400, data)
+            return
+        default:
+            return false
+    }
+}
 const check_cid = async (cid, area) => { //检测是否缓存cid
     url = await redis.get('cid' + area + cid)
     switch (url != null && url != undefined) {
@@ -203,6 +220,8 @@ const check_ip = async (req, res, next) => { //检测ip请求频率
     }
 }
 module.exports = {
+    check_season,
+    check_season_code,
     check_cid,
     check_url,
     check,

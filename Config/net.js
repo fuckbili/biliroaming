@@ -3,7 +3,9 @@ const {
     check_url,
     check,
     check_auth,
-    check_ip
+    check_ip,
+    check_season,
+    check_season_code
 } = require('./net_model')
 
 const config = require('./config')
@@ -32,7 +34,7 @@ const auth = async (req, res, next) => {
 }
 
 
-async function playurl(params) {
+const playurl = async (params) => {
     let access_key = params.access_key
     let cid = params.cid || 3684209 //没有cid就换成葫芦娃
     let ep_id = params.ep_id || 62780
@@ -58,7 +60,7 @@ async function playurl(params) {
                 return url_data
     }
 }
-async function th_playurl(params) {
+const th_playurl = async (params) => {
     let access_key = params.access_key
     let cid = params.cid || 3684209 //没有cid就换成葫芦娃
     let ep_id = params.ep_id || 62780
@@ -84,7 +86,7 @@ async function th_playurl(params) {
                 return url_data
     }
 }
-async function web_playurl(params) {
+const web_playurl = async (params) => {
     let access_key = params.access_key
     let cid = params.cid || 3684209 //没有cid就换成葫芦娃
     let avid = params.avid
@@ -96,23 +98,47 @@ async function web_playurl(params) {
     let qn = params.qn || 80
     let area = params.area || 'tw'
     data = await check(access_key)
-    switch(data){
+    switch (data) {
         case true:
-            url_data = await await api.api_pcurl(access_key,avid,bvid, cid, ep_id,fnval, fourk, qn, ts, area)
+            url_data = await api.api_pcurl(access_key, avid, bvid, cid, ep_id, fnval, fourk, qn, ts, area)
             return url_data
-            case false:
-                url_data = await api.api_pcurl(access_key,avid,bvid, 3684209, 62780,fnval, fourk, qn, ts, 'cn')
-                return url_data
+        case false:
+            url_data = await api.api_pcurl(access_key, avid, bvid, 3684209, 62780, fnval, fourk, qn, ts, 'cn')
+            return url_data
     }
 }
-async function th_search(params) { //area默认泰国,修改去bili_api里面改
+const th_search = async (params) => { //area默认泰国,修改去bili_api里面改
     data = await api.api_th_search(params)
     return data
 }
-async function th_subtitle(params) { //area默认泰国
+const th_subtitle = async (params) => { //area默认泰国
     let ep_id = params.ep_id
     data = await api.api_th_subtitle(ep_id)
     return data
+}
+const th_season = async (params) => {
+    let access_key = params.access_key
+    let season_id = params.season_id
+    let area = params.area || 'th'
+    data = await check(access_key)
+    switch (data) {
+        case true:
+            data_season = await check_season(season_id, area)
+            switch(data_season){
+                case false:
+                    season_data=await api.api_th_season(access_key,season_id,area)
+                    check_season_code(season_id,area,season_data)
+                    return season_data
+                    default:
+                        return data_season
+            }
+        case false:
+            return {
+                "code": -403,
+                "message": "season没有权限"
+            }
+
+    }
 }
 module.exports = {
     ip,
@@ -121,5 +147,6 @@ module.exports = {
     th_playurl,
     web_playurl,
     th_search,
-    th_subtitle
+    th_subtitle,
+    th_season,
 }
