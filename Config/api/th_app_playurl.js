@@ -1,7 +1,7 @@
 const appkey = require('../config.js').bstar_a_sk
 
 const headers = {
-    'Host': 'api.global.bilibili.com',
+    'Host': 'app.biliintl.com',
     'APP-KEY': 'android',
     'User-Agent': 'Bilibili Freedoooooom/MarkII',
 }
