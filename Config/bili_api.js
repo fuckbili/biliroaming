@@ -21,7 +21,7 @@ let th_subtitle = require('./api/th_app_subtitle')
 let th_search = require('./api/th_app_search')
 let th_season = require('./api/th_season')
 let uid = require('./api/checkip')
-const api_th_season = async (access_key, season_id, area) => {
+const api_th_season = async(access_key, season_id, area) => {
     try {
         th_season.options.httpsAgent = HttpsAgent(area)
         th_season.params.access_key = access_key
@@ -43,7 +43,7 @@ const api_th_season = async (access_key, season_id, area) => {
         }
     }
 }
-const api_pcurl = async (access_key, avid, bvid, cid, ep_id, fnval, fourk, qn, ts, area) => { //获取web番剧视频地址
+const api_pcurl = async(access_key, avid, bvid, cid, ep_id, fnval, fourk, qn, ts, area) => { //获取web番剧视频地址
     try {
         pcurl.options.httpsAgent = HttpsAgent(area)
         pcurl.params.access_key = access_key
@@ -73,11 +73,11 @@ const api_pcurl = async (access_key, avid, bvid, cid, ep_id, fnval, fourk, qn, t
     }
 
 }
-const api_playurl = async (access_key, cid, ep_id, fnval, fourk, qn, ts, area) => { //app客户端视频地址
+const api_playurl = async(access_key, cid, ep_id, fnval, fourk, qn, ts, area) => { //app客户端视频地址
     try {
         playurl.options.httpsAgent = HttpsAgent(area)
         playurl.params.access_key = access_key
-        //playurl.params.build=build
+            //playurl.params.build=build
         playurl.params.ts = ts
         playurl.params.ep_id = ep_id
         playurl.params.cid = cid
@@ -102,7 +102,7 @@ const api_playurl = async (access_key, cid, ep_id, fnval, fourk, qn, ts, area) =
     }
 
 }
-const api_th_playurl = async (access_key, cid, ep_id, fnval, fourk, qn, ts, area) => { //东南亚app客户端视频地址
+const api_th_playurl = async(access_key, cid, ep_id, fnval, fourk, qn, ts, area) => { //东南亚app客户端视频地址
     try {
         th_playurl.options.httpsAgent = HttpsAgent(area)
         th_playurl.params.access_key = access_key
@@ -130,7 +130,7 @@ const api_th_playurl = async (access_key, cid, ep_id, fnval, fourk, qn, ts, area
     }
 
 }
-const api_th_subtitle = async (ep_id) => { //字幕
+const api_th_subtitle = async(ep_id) => { //字幕
     try {
         th_subtitle.options.httpsAgent = HttpsAgent('th')
         th_subtitle.params.ep_id = ep_id
@@ -152,7 +152,7 @@ const api_th_subtitle = async (ep_id) => { //字幕
     }
 
 }
-const api_th_search = async (params) => { //东南亚搜索
+const api_th_search = async(params) => { //东南亚搜索
     try {
         th_search.options.httpsAgent = HttpsAgent('th')
         th_search.params = params
@@ -173,7 +173,7 @@ const api_th_search = async (params) => { //东南亚搜索
         }
     }
 }
-const api_uid = async (access_key) => { //获取信息
+const api_uid = async(access_key) => { //获取信息
     try {
         uid.options.httpsAgent = HttpsAgent('cn')
         uid.options.url = `https://api.bilibili.com/x/web-interface/nav?access_key=${access_key}`
