@@ -24,7 +24,8 @@ let uid = require('./api/checkip')
 const api_th_season = async(access_key, season_id, area) => {
     try {
         th_season.options.httpsAgent = HttpsAgent(area)
-        th_season.params.access_key = access_key
+        th_season.params.access_key = access_key //如果要使用自己的access_key就注释这一行，取消注释下一行
+            //th_season.params.access_key ='你的access_key'
         th_season.params.season_id = season_id
         th_season.options.url = `https://app.biliintl.com/intl/gateway/v2/ogv/view/app/season?${sign_Params(th_season.params, bstar_Sign)}`
         let resp = await axios(th_season.options)
@@ -105,7 +106,8 @@ const api_playurl = async(access_key, cid, ep_id, fnval, fourk, qn, ts, area) =>
 const api_th_playurl = async(access_key, cid, ep_id, fnval, fourk, qn, ts, area) => { //东南亚app客户端视频地址
     try {
         th_playurl.options.httpsAgent = HttpsAgent(area)
-        th_playurl.params.access_key = access_key
+        th_playurl.params.access_key = access_key //如果要使用自己的access_key就注释这一行，取消注释下一行
+            //th_playurl.params.access_key = '你的access_key'
         th_playurl.params.ts = ts
         th_playurl.params.ep_id = ep_id
         th_playurl.params.cid = cid

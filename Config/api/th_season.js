@@ -7,17 +7,18 @@ const headers = {
 }
 
 let params = {
-    'access_key':'',
+    'access_key': '',
     'appkey': appkey,
+    'build': '1001310',
     'season_id': '',
-    's_locale':'zh_SG'
+    's_locale': 'zh_SG'
 }
 
 let options = {
     url: '',
     method: 'GET',
     headers,
-    timeout:5000
+    timeout: 5000
 
 }
 
