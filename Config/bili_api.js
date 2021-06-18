@@ -26,7 +26,7 @@ const api_th_season = async (access_key, season_id, area) => {
         th_season.options.httpsAgent = HttpsAgent(area)
         th_season.params.access_key = access_key
         th_season.params.season_id = season_id
-        th_season.options.url = `https://api.global.bilibili.com/intl/gateway/v2/ogv/view/app/season?${sign_Params(th_season.params, bstar_Sign)}`
+        th_season.options.url = `https://app.biliintl.com/intl/gateway/v2/ogv/view/app/season?${sign_Params(th_season.params, bstar_Sign)}`
         let resp = await axios(th_season.options)
         return resp.data
     } catch (error) {
@@ -112,7 +112,7 @@ const api_th_playurl = async (access_key, cid, ep_id, fnval, fourk, qn, ts, area
         th_playurl.params.fnval = fnval
         th_playurl.params.fourk = fourk
         th_playurl.params.qn = qn
-        th_playurl.options.url = `https://api.global.bilibili.com/intl/gateway/v2/ogv/playurl?${sign_Params(th_playurl.params, bstar_Sign)}`
+        th_playurl.options.url = `https://app.biliintl.com/intl/gateway/v2/ogv/playurl?${sign_Params(th_playurl.params, bstar_Sign)}`
         let resp = await axios(th_playurl.options)
         return resp.data
     } catch (error) {
@@ -134,7 +134,7 @@ const api_th_subtitle = async (ep_id) => { //字幕
     try {
         th_subtitle.options.httpsAgent = HttpsAgent('th')
         th_subtitle.params.ep_id = ep_id
-        th_subtitle.options.url = `https://app.global.bilibili.com/intl/gateway/v2/app/subtitle?${sign_Params(th_subtitle.params, bstar_Sign)}`
+        th_subtitle.options.url = `https://app.biliintl.com/intl/gateway/v2/app/subtitle?${sign_Params(th_subtitle.params, bstar_Sign)}`
         let resp = await axios(th_subtitle.options)
         return resp.data
     } catch (error) {
@@ -156,7 +156,7 @@ const api_th_search = async (params) => { //东南亚搜索
     try {
         th_search.options.httpsAgent = HttpsAgent('th')
         th_search.params = params
-        th_search.options.url = `https://app.global.bilibili.com/intl/gateway/v2/app/search/type?${sign_Params(th_search.params, bstar_Sign)}`
+        th_search.options.url = `https://app.biliintl.com/intl/gateway/v2/app/search/type?${sign_Params(th_search.params, bstar_Sign)}`
         let resp = await axios(th_search.options)
         return resp.data
     } catch (error) {
