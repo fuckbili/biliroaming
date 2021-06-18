@@ -1,13 +1,13 @@
 const appkey = require('../config.js').bstar_a_sk
 
 const headers = {
-    'Host': 'api.global.bilibili.com',
+    'Host': 'app.biliintl.com',
     'APP-KEY': 'android',
     'User-Agent': 'Bilibili Freedoooooom/MarkII',
 }
 
 let params = {
-    'access_key':'',
+    'access_key': '',
     'appkey': appkey,
     'build': '1001310',
     'cid': '',
@@ -26,7 +26,7 @@ let options = {
     url: '',
     method: 'GET',
     headers,
-    timeout:5000
+    timeout: 5000
 
 }
 

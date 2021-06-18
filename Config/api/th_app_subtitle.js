@@ -15,7 +15,7 @@ let options = {
     url: '',
     method: 'GET',
     headers,
-    timeout:5000
+    timeout: 5000
 
 }
 
