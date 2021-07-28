@@ -10,8 +10,10 @@ let params = {
     'access_key': '',
     'appkey': appkey,
     'build': '1001310',
+    'mobi_app': 'bstar_a',
     'season_id': '',
     's_locale': 'zh_SG'
+
 }
 
 let options = {
