@@ -8,7 +8,7 @@ const headers = {
 }
 
 let params = {
-    'access_key':'',
+    'access_key': '',
     'appkey': appkey,
     'build': '6080500',
     'cid': '',
