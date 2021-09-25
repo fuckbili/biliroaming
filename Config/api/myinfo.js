@@ -1,6 +1,6 @@
 const appkey = require('../config.js').android_ak
 let params = {
-    'access_key':'',
+    'access_key': '',
     'appkey': appkey,
     'build': '6080500',
     'mobi_app': 'android',
