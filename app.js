@@ -37,6 +37,22 @@ app.get('/intl/gateway/v2/app/subtitle', net.ip, async (req, res, next) => {
 	})
 	res.send(data)
 });
+app.get('/x/v2/search/type', net.ip, net.auth, async (req, res, next) => {
+	data = await net.app_search(req.query)
+	res.set({
+		'Access-Control-Allow-Origin': 'https://www.bilibili.com',
+		'Access-Control-Allow-Credentials': 'true'
+	})
+	res.send(data)
+});
+app.get('/x/web-interface/search/type', net.ip, net.auth, async (req, res, next) => {
+	data = await net.web_search(req.query)
+	res.set({
+		'Access-Control-Allow-Origin': 'https://www.bilibili.com',
+		'Access-Control-Allow-Credentials': 'true'
+	})
+	res.send(data)
+});
 app.get('/intl/gateway/v2/app/search/type', net.ip, net.auth, async (req, res, next) => {
 	data = await net.th_search(req.query)
 	res.set({
