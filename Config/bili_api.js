@@ -18,6 +18,8 @@ let playurl = require('./api/playurl')
 let pcurl = require('./api/pc_url')
 let th_playurl = require('./api/th_app_playurl')
 let th_subtitle = require('./api/th_app_subtitle')
+let app_search = require('./api/app_search')
+let web_search = require('./api/web_search')
 let th_search = require('./api/th_app_search')
 let th_season = require('./api/th_season')
 let uid = require('./api/checkip')
@@ -154,6 +156,58 @@ const api_th_subtitle = async(ep_id) => { //字幕
     }
 
 }
+const api_app_search = async(access_key, fnval, fourk, keyword, pn, ps, qn, statistics, ts, type, area) => { //app搜索
+    try {
+        app_search.options.httpsAgent = HttpsAgent(area)
+        app_search.params.access_key = access_key
+        app_search.params.fnval = fnval
+        app_search.params.fourk = fourk
+        app_search.params.keyword = keyword
+        app_search.params.pn = pn
+        app_search.params.ps = ps
+        app_search.params.qn = qn
+        app_search.params.statistics = statistics
+        app_search.params.ts = ts
+        app_search.params.type = type
+        app_search.options.url = `https://app.bilibili.com/x/v2/search/type?${sign_Params(app_search.params, app_Sign)}`
+        let resp = await axios(app_search.options)
+        return resp.data
+    } catch (error) {
+        if (error.response) {
+            console.log(error.response.data);
+            console.log(error.response.status);
+            return error.response.data
+        } else if (error.request) {
+            console.log(error.message);
+            return req_error
+        } else {
+            console.log('Error', error.message);
+            return req_error
+        }
+    }
+}
+const api_web_search = async(search_type, keyword, area) => { //网页搜索
+    try {
+        web_search.options.httpsAgent = HttpsAgent(area)
+        web_search.params.search_type = search_type
+        web_search.params.keyword = keyword
+        web_search.options.url = `https://api.bilibili.com/x/web-interface/search/type?${sign_Params(web_search.params, web_Sign)}`
+        let resp = await axios(web_search.options)
+        return resp.data
+    } catch (error) {
+        if (error.response) {
+            console.log(error.response.data);
+            console.log(error.response.status);
+            return error.response.data
+        } else if (error.request) {
+            console.log(error.message);
+            return req_error
+        } else {
+            console.log('Error', error.message);
+            return req_error
+        }
+    }
+}
 const api_th_search = async(params) => { //东南亚搜索
     try {
         th_search.options.httpsAgent = HttpsAgent('th')
@@ -201,6 +255,8 @@ module.exports = {
     api_playurl,
     api_th_playurl,
     api_th_subtitle,
+    api_app_search,
+    api_web_search,
     api_th_search,
     api_uid
 }

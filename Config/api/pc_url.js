@@ -6,12 +6,12 @@ let headers = {
 }
 
 let params = {
-    'access_key':'',
+    'access_key': '',
     'appkey': appkey,
-    'avid':'',
-    'bvid':'',
+    'avid': '',
+    'bvid': '',
     'cid': '',
-    'ep_id':'',
+    'ep_id': '',
     'fnval': '',
     'fnver': '0',
     'fourk': '',

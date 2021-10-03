@@ -36,8 +36,8 @@ const auth = async (req, res, next) => {
 
 const playurl = async (params) => {
     let access_key = params.access_key
-    let cid = params.cid || 3684209 //没有cid就换成葫芦娃
-    let ep_id = params.ep_id || 62780
+    let cid = params.cid || 118528026 //没有cid就换成那兔
+    let ep_id = params.ep_id || 30478
     let ts = params.ts
     let fnval = params.fnval
     let fourk = params.fourk
@@ -56,14 +56,14 @@ const playurl = async (params) => {
                     return data_url
             }
             case false:
-                url_data = await api.api_playurl(access_key, 3684209, 62780, ts, fnval, fourk, qn, 'cn')
+                url_data = await api.api_playurl(access_key, 118528026, 30478, ts, fnval, fourk, qn, 'cn')
                 return url_data
     }
 }
 const th_playurl = async (params) => {
     let access_key = params.access_key
-    let cid = params.cid || 3684209 //没有cid就换成葫芦娃
-    let ep_id = params.ep_id || 62780
+    let cid = params.cid || 118528026 //没有cid就换成那兔
+    let ep_id = params.ep_id || 30478
     let ts = params.ts
     let fnval = params.fnval
     let fourk = params.fourk
@@ -82,13 +82,13 @@ const th_playurl = async (params) => {
                     return data_url
             }
             case false:
-                url_data = await api.api_playurl(access_key, 3684209, 62780, ts, fnval, fourk, qn, 'cn')
+                url_data = await api.api_playurl(access_key, 118528026, 30478, ts, fnval, fourk, qn, 'cn')
                 return url_data
     }
 }
 const web_playurl = async (params) => {
     let access_key = params.access_key
-    let cid = params.cid || 3684209 //没有cid就换成葫芦娃
+    let cid = params.cid || 118528026 //没有cid就换成那兔
     let avid = params.avid
     let bvid = params.bvid
     let ep_id = params.ep_id
@@ -103,9 +103,31 @@ const web_playurl = async (params) => {
             url_data = await api.api_pcurl(access_key, avid, bvid, cid, ep_id, fnval, fourk, qn, ts, area)
             return url_data
         case false:
-            url_data = await api.api_pcurl(access_key, avid, bvid, 3684209, 62780, fnval, fourk, qn, ts, 'cn')
+            url_data = await api.api_pcurl(access_key, avid, bvid, 118528026, 30478, fnval, fourk, qn, ts, 'cn')
             return url_data
     }
+}
+const app_search = async (params) => {
+    let access_key = params.access_key
+    let fnval = params.fnval
+    let fourk = params.fourk
+    let keyword = params.keyword
+    let pn = params.pn
+    let ps = params.ps
+    let qn = params.qn
+    let statistics = params.statistics
+    let ts = params.ts
+    let type = params.type
+    let area = params.area || 'tw'
+    data = await api.api_app_search(access_key, fnval, fourk, keyword, pn, ps, qn, statistics, ts, type, area)
+    return data
+}
+const web_search = async (params) => {
+    let search_type = params.search_type
+    let keyword = params.keyword
+    let area = params.area || 'tw'
+    data = await api.api_web_search(search_type, keyword, area)
+    return data
 }
 const th_search = async (params) => { //area默认泰国,修改去bili_api里面改
     data = await api.api_th_search(params)
@@ -146,6 +168,8 @@ module.exports = {
     playurl,
     th_playurl,
     web_playurl,
+    app_search,
+    web_search,
     th_search,
     th_subtitle,
     th_season,

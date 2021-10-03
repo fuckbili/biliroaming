@@ -8,10 +8,10 @@ const headers = {
 }
 
 let params = {
-    'access_key':'',
+    'access_key': '',
     'appkey': appkey,
     'build': '12450',
-    'bvid':'',
+    'bvid': '',
     'cid': '',
     'fnval': '',
     'fnver': '0',

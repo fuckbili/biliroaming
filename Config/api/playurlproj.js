@@ -9,7 +9,7 @@ const headers = {
 }
 
 let params = {
-    'access_key':'',
+    'access_key': '',
     'actionKey': 'appkey',
     'appkey': appkey,
     'build': '5540500',
